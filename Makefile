@@ -19,13 +19,10 @@ SRC_FILES = main.c \
 	draw/dda_utils.c \
 
 SRC = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
-SRC_ALL = $(SRC)
 
 OBJ_DIR = obj
-
-OBJ = $(patsubst %.c, $(OBJ_DIR)/%.o, $(SRC_ALL))
-
--include $(OBJ:.o=.d)
+OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
+DEP = $(OBJ:.o=.d)
 
 LIBFT_DIR = ./libft
 LIBFT_A = $(LIBFT_DIR)/libft.a
@@ -47,8 +44,6 @@ GREEN = \033[1;32m
 YELLOW = \033[33m
 RESET = \033[0m
 
-
-
 all : $(NAME)
 	@echo "$(GREEN)✨ cub3D ready! ✨$(RESET)"
 
@@ -62,10 +57,12 @@ $(NAME) : $(LIBFT_A) $(LIBMLX) $(OBJ)
 $(LIBFT_A):
 	@$(MAKE) --no-print-directory -C $(LIBFT_DIR)
 
-$(OBJ_DIR)/%.o : %.c
+$(OBJ_DIR)/%.o : $(SRC_DIR)/%.c
 	@mkdir -p $(dir $@)
 	@echo "$(YELLOW)Compiling $<...$(RESET)"
-	@$(CC) $(CFLAGS) -c -g $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+-include $(DEP)
 
 clean :
 	@echo "$(RED)Cleaning object folder... 🧹$(RESET)"
@@ -74,7 +71,7 @@ clean :
 
 fclean : clean
 	@$(MAKE) --no-print-directory -C $(LIBFT_DIR) fclean
-	@echo "$(RED)Deleting minishell executable... 🧹⚠️$(RESET)"
+	@echo "$(RED)Deleting cub3D executable... 🧹⚠️$(RESET)"
 	@rm -f $(NAME)
 
 re:	fclean all

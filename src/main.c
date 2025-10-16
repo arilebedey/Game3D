@@ -1,14 +1,13 @@
-#include "../include/win.h"
-#include "../include/texture.h"
 #include "../include/ctx.h"
-#include "../include/error.h"
-#include "../mlx_linux/mlx.h"
-#include "../include/draw.h"
-#include <stdlib.h>
-#include <X11/X.h>
-#include "../libft/libft.h"
-#include "../include/texture.h"
 #include "../include/debug.h"
+#include "../include/draw.h"
+#include "../include/error.h"
+#include "../include/texture.h"
+#include "../include/win.h"
+#include "../libft/libft.h"
+#include "../mlx_linux/mlx.h"
+#include <X11/X.h>
+#include <stdlib.h>
 
 static int	loop(t_ctx *ctx);
 static int	close_window(t_ctx *ctx);
@@ -21,7 +20,7 @@ int	main(int ac, char **av)
 
 	(void)av;
 	(void)ac;
-	//if (ac != 2)
+	// if (ac != 2)
 	//	return (perr("error: args"), 1);
 	ctx = malloc(sizeof(t_ctx));
 	if (!ctx)
@@ -34,10 +33,10 @@ int	main(int ac, char **av)
 	if (!load_textures(ctx))
 		return (free_ctx(ctx, &ctx), 1);
 	mlx_loop_hook(ctx->win.ptr_mlx, &loop, ctx);
-	mlx_hook(ctx->win.ptr_win, KeyPress, KeyPressMask, &handle_key_press, \
+	mlx_hook(ctx->win.ptr_win, KeyPress, KeyPressMask, &handle_key_press,
 		&ctx->input);
-	mlx_hook(ctx->win.ptr_win, KeyRelease, KeyReleaseMask, \
-		&handle_key_release, &ctx->input);
+	mlx_hook(ctx->win.ptr_win, KeyRelease, KeyReleaseMask, &handle_key_release,
+		&ctx->input);
 	mlx_hook(ctx->win.ptr_win, DestroyNotify, 0, &close_window, ctx);
 	mlx_loop(ctx->win.ptr_mlx);
 	free_ctx(ctx, &ctx);
@@ -46,6 +45,7 @@ int	main(int ac, char **av)
 
 // Main loop.
 #include <stdio.h>
+
 static int	loop(t_ctx *ctx)
 {
 	debug_input(ctx->input);
@@ -61,14 +61,9 @@ static int	loop(t_ctx *ctx)
 // A supp quand le parse fonctionnera
 static void	init_test_values(t_ctx *ctx)
 {
-	static char	*hardcoded_tile_list[] = {
-		"111111",
-		"100001",
-		"100001",
-		"100001",
-		"111111",
-		NULL
-	};
+	static char	*hardcoded_tile_list[] = {"111111", "100001", "100001",
+			"100001", "111111", NULL};
+
 	ctx->map.tile_list = hardcoded_tile_list;
 	ctx->map.ceiling_color = encode_rgb((t_rgb){255, 0, 0});
 	ctx->map.floor_color = encode_rgb((t_rgb){230, 230, 170});
@@ -86,8 +81,8 @@ static void	init_test_values(t_ctx *ctx)
 	ctx->map.texture_list.east_tex.path = "./texture/neco_boom.xpm";
 	ctx->map.height = 5;
 	ctx->map.width = 6;
-	ctx->player.direction = ((t_vector2){0, 1});
-	ctx->player.fov = ((t_vector2){-0.66, 0});
+	ctx->player.direction = ((t_vector2){-1, 0});
+	ctx->player.fov = ((t_vector2){0, -0.66});
 	ctx->player.position = ((t_vector2){2.5, 1.5});
 }
 
