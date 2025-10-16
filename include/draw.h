@@ -1,13 +1,13 @@
 #ifndef DRAW_H
 # define DRAW_H
 
-#include "ctx.h"
-#include "win.h"
+# include "ctx.h"
+# include "win.h"
 
 // render.c
 
 // Main render.
-int	render(t_ctx *ctx);
+int		render(t_ctx *ctx);
 
 // pixel.c
 

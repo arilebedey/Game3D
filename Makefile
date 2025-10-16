@@ -1,7 +1,7 @@
 NAME = cub3D
 
 CC = cc
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra -MMD -MP -Iinclude 
 
 SRC_DIR = src
 SRC_FILES = main.c \
@@ -24,6 +24,8 @@ SRC_ALL = $(SRC)
 OBJ_DIR = obj
 
 OBJ = $(patsubst %.c, $(OBJ_DIR)/%.o, $(SRC_ALL))
+
+-include $(OBJ:.o=.d)
 
 LIBFT_DIR = ./libft
 LIBFT_A = $(LIBFT_DIR)/libft.a
@@ -67,7 +69,7 @@ $(OBJ_DIR)/%.o : %.c
 
 clean :
 	@echo "$(RED)Cleaning object folder... 🧹$(RESET)"
-	@rm -rf $(OBJ_DIR)/*
+	@rm -rf $(OBJ_DIR)
 	@$(MAKE) --no-print-directory -C $(LIBFT_DIR) clean
 
 fclean : clean
