@@ -7,12 +7,17 @@
 #include "../libft/libft.h"
 #include "../mlx_linux/mlx.h"
 #include <X11/X.h>
+#include <math.h>
+#include <stdio.h>
 #include <stdlib.h>
 
-static int	loop(t_ctx *ctx);
-static int	close_window(t_ctx *ctx);
-static void	init_test_values(t_ctx *ctx);
-static void	free_ctx(t_ctx *ctx, t_ctx **ref_ctx);
+#define FOV_AMPLITUDE 1
+#define ROT_SPEED 0.05
+
+static int			loop(t_ctx *ctx);
+static int			close_window(t_ctx *ctx);
+static void			init_test_values(t_ctx *ctx);
+static void			free_ctx(t_ctx *ctx, t_ctx **ref_ctx);
 
 int	main(int ac, char **av)
 {
@@ -43,13 +48,39 @@ int	main(int ac, char **av)
 	return (0);
 }
 
-// Main loop.
-#include <stdio.h>
+static t_vector2	calc_fov_vector(t_vector2 dir)
+{
+	t_vector2	fov;
+
+	fov.x = -dir.y * FOV_AMPLITUDE;
+	fov.y = dir.x * FOV_AMPLITUDE;
+	return (fov);
+}
+
+static void	rotate_player(t_ctx *ctx)
+{
+	double	old_dir_x;
+	double	rot_angle;
+
+	if (!ctx->input.left && !ctx->input.right)
+		return ;
+	rot_angle = 0;
+	if (ctx->input.left)
+		rot_angle = -ROT_SPEED;
+	else if (ctx->input.right)
+		rot_angle = ROT_SPEED;
+	old_dir_x = ctx->player.direction.x;
+	ctx->player.direction.x = ctx->player.direction.x * cos(rot_angle)
+		- ctx->player.direction.y * sin(rot_angle);
+	ctx->player.direction.y = old_dir_x * sin(rot_angle)
+		+ ctx->player.direction.y * cos(rot_angle);
+	ctx->player.fov = calc_fov_vector(ctx->player.direction);
+}
 
 static int	loop(t_ctx *ctx)
 {
 	debug_input(ctx->input);
-	//🤓 TODO: calculates player move and rotation according to input (aristark lebedev)🤓
+	rotate_player(ctx);
 	borders_collision(ctx);
 	render(ctx);
 	if (ctx->input.escape)
@@ -82,8 +113,8 @@ static void	init_test_values(t_ctx *ctx)
 	ctx->map.height = 5;
 	ctx->map.width = 6;
 	ctx->player.direction = ((t_vector2){-1, 0});
-	ctx->player.fov = ((t_vector2){0, -0.66});
-	ctx->player.position = ((t_vector2){2.5, 1.5});
+	ctx->player.fov = calc_fov_vector(ctx->player.direction);
+	ctx->player.position = ((t_vector2){2.5, 2.5});
 }
 
 // Close the window.
