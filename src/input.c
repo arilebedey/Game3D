@@ -2,7 +2,7 @@
 #include "../libft/libft.h"
 #include "../mlx_linux/mlx.h"
 #include <X11/keysym.h>
-#include <malloc.h>
+#include <stdlib.h>
 
 int	handle_key_press(int keysym, t_input *ref_input)
 {

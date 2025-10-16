@@ -30,32 +30,35 @@ LIBFT_A = $(LIBFT_DIR)/libft.a
 
 UNAME_S := $(shell uname -s)
 
-ifeq ($(UNAME_S),Darwin) # macOS
-	READLINE_DIR = $(shell brew --prefix readline)
-	CFLAGS += -I$(READLINE_DIR)/include
-	LDFLAGS += -L$(READLINE_DIR)/lib
+ifeq ($(UNAME_S),Darwin)
+	X11_PATH = /opt/X11
+	LIBMLX = ./mlx_linux/libmlx_Darwin.a
+	CFLAGS += -I$(X11_PATH)/include
+	MLXFLAGS = -L$(X11_PATH)/lib -lXext -lX11 -framework OpenGL -framework AppKit
+else
+	LIBMLX = ./mlx_linux/libmlx_Linux.a
+	MLXFLAGS = -lm -lX11 -lXext
 endif
-
-LIBMLX = ./mlx_linux/libmlx_Linux.a
-MLXFLAGS += -lm -lX11 -lXext -Imlx
 
 RED = \033[31m
 GREEN = \033[1;32m
 YELLOW = \033[33m
 RESET = \033[0m
 
+
+
 all : $(NAME)
 	@echo "$(GREEN)✨ cub3D ready! ✨$(RESET)"
 
-$(NAME) : $(LIBFT_A) $(OBJ)
+$(LIBMLX):
+	@$(MAKE) -C mlx_linux -f Makefile.mk
+
+$(NAME) : $(LIBFT_A) $(LIBMLX) $(OBJ) 
 	@echo "$(YELLOW)Linking $(NAME)...$(RESET)"
 	@$(CC) $(CFLAGS) $(MLXFLAGS) $(OBJ) -o $(NAME) $(LIBMLX) -L$(LIBFT_DIR) -lft
 
 $(LIBFT_A):
 	@$(MAKE) --no-print-directory -C $(LIBFT_DIR)
-
-$(LIBMLX) :
-	$(MAKE) -C mlx_linux
 
 $(OBJ_DIR)/%.o : %.c
 	@mkdir -p $(dir $@)
