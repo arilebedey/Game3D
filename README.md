@@ -3,7 +3,7 @@
 This project use's 42's minilibx as a Git Submodule.
 
 ```bash
-git clone --recursive git@github.com:arilebedey/cube3d-git.git
+git clone --recursive git@github.com:arilebedey/Game3D-git.git
 ```
 
 - Clones the main repository
