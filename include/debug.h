@@ -7,7 +7,7 @@
 // Set these macros to 0 or 1 to disable or enable each debug functions.
 // Do make fclean after setting.
 
-# define DEBUG_INPUT 1
+# define DEBUG_INPUT 0
 
 // Prints all pressed inputs.
 // Need DEBUG_INPUT different to 0.

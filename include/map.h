@@ -17,8 +17,6 @@ typedef struct s_texture_list
 typedef struct s_map
 {
 	char			**tile_list;
-	int				width;
-	int				height;
 	int				floor_color;
 	int				ceiling_color;
 	t_texture_list	texture_list;

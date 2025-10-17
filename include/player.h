@@ -3,8 +3,9 @@
 
 # include "vector.h"
 
-# define ROTATION_SPEED 1
-# define WALK_SPEED 1
+# define WALK_SPEED 0.05
+# define ROT_SPEED 0.025
+# define FOV_AMPLITUDE 0.66
 
 typedef struct s_ctx	t_ctx;
 
@@ -15,10 +16,10 @@ typedef struct s_player
 	t_vector2	direction;
 }		t_player;
 
-// collision.c
+// Rotate player according to inputs.
+void	rotate_player(t_ctx *ctx);
 
-// Prevents the player from going out of the map.
-// Should be called just after player final position calculations.
-void	borders_collision(t_ctx *ctx);
+// Move player according to inputs.
+void	move_player(t_ctx *ctx);
 
 #endif

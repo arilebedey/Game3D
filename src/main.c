@@ -4,20 +4,17 @@
 #include "../include/error.h"
 #include "../include/texture.h"
 #include "../include/win.h"
+#include "../include/player.h"
 #include "../libft/libft.h"
 #include "../mlx_linux/mlx.h"
 #include <X11/X.h>
-#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-#define FOV_AMPLITUDE 1
-#define ROT_SPEED 0.05
-
-static int			loop(t_ctx *ctx);
-static int			close_window(t_ctx *ctx);
-static void			init_test_values(t_ctx *ctx);
-static void			free_ctx(t_ctx *ctx, t_ctx **ref_ctx);
+static int	loop(t_ctx *ctx);
+static int	close_window(t_ctx *ctx);
+static void	init_test_values(t_ctx *ctx);
+static void	free_ctx(t_ctx *ctx, t_ctx **ref_ctx);
 
 int	main(int ac, char **av)
 {
@@ -48,41 +45,15 @@ int	main(int ac, char **av)
 	return (0);
 }
 
-static t_vector2	calc_fov_vector(t_vector2 dir)
-{
-	t_vector2	fov;
-
-	fov.x = -dir.y * FOV_AMPLITUDE;
-	fov.y = dir.x * FOV_AMPLITUDE;
-	return (fov);
-}
-
-static void	rotate_player(t_ctx *ctx)
-{
-	double	old_dir_x;
-	double	rot_angle;
-
-	if (!ctx->input.left && !ctx->input.right)
-		return ;
-	rot_angle = 0;
-	if (ctx->input.left)
-		rot_angle = -ROT_SPEED;
-	else if (ctx->input.right)
-		rot_angle = ROT_SPEED;
-	old_dir_x = ctx->player.direction.x;
-	ctx->player.direction.x = ctx->player.direction.x * cos(rot_angle)
-		- ctx->player.direction.y * sin(rot_angle);
-	ctx->player.direction.y = old_dir_x * sin(rot_angle)
-		+ ctx->player.direction.y * cos(rot_angle);
-	ctx->player.fov = calc_fov_vector(ctx->player.direction);
-}
-
 static int	loop(t_ctx *ctx)
 {
 	debug_input(ctx->input);
 	rotate_player(ctx);
-	borders_collision(ctx);
+	move_player(ctx);
 	render(ctx);
+	printf("direction: {%f %f}, fov: {%f, %f}, position: {%f %f}\n", ctx->player.direction.x, ctx->player.direction.y, \
+		ctx->player.fov.x, ctx->player.fov.y, \
+			ctx->player.position.x, ctx->player.position.y);
 	if (ctx->input.escape)
 		close_window(ctx);
 	return (1);
@@ -92,8 +63,13 @@ static int	loop(t_ctx *ctx)
 // A supp quand le parse fonctionnera
 static void	init_test_values(t_ctx *ctx)
 {
-	static char	*hardcoded_tile_list[] = {"111111", "100001", "100001",
-			"100001", "111111", NULL};
+	static char	*hardcoded_tile_list[] = {
+		"1111111",
+		"10000011111",
+		"10101000001",
+		"10001101011",
+		"11111111111",
+		NULL};
 
 	ctx->map.tile_list = hardcoded_tile_list;
 	ctx->map.ceiling_color = encode_rgb((t_rgb){255, 0, 0});
@@ -110,11 +86,10 @@ static void	init_test_values(t_ctx *ctx)
 	ctx->map.texture_list.east_tex.width = 256;
 	ctx->map.texture_list.east_tex.height = 256;
 	ctx->map.texture_list.east_tex.path = "./texture/neco_boom.xpm";
-	ctx->map.height = 5;
-	ctx->map.width = 6;
-	ctx->player.direction = ((t_vector2){-1, 0});
-	ctx->player.fov = calc_fov_vector(ctx->player.direction);
-	ctx->player.position = ((t_vector2){2.5, 2.5});
+	ctx->player.direction = ((t_vector2){0, 1});
+	rotate_player(ctx);
+	ctx->player.position = ((t_vector2){1.5, 1.5});
+		// Ne pas oublier d'add 0.5 pour spawn au milieu de la case
 }
 
 // Close the window.

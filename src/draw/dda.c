@@ -4,8 +4,8 @@
 #include <math.h>
 
 static t_vector2	get_ray(t_ctx *ctx, int col);
-static void	init_dda(t_ctx *ctx, t_dda *ref_dda);
-static void	raycast(t_ctx *ctx, t_dda *ref_dda);
+static void			init_dda(t_ctx *ctx, t_dda *ref_dda);
+static void			raycast(t_ctx *ctx, t_dda *ref_dda);
 
 void	dda_algo(t_ctx *ctx, t_dda *ref_dda)
 {
@@ -34,12 +34,12 @@ void	dda_algo(t_ctx *ctx, t_dda *ref_dda)
 // Returns a ray according to the actual col.
 static t_vector2	get_ray(t_ctx *ctx, int col)
 {
-	double	cameraX;
+	double		camera_x;
 	t_vector2	ray;
 
-	cameraX = 2 * col / (double)WINDOW_WIDTH - 1;
-	ray.x = ctx->player.direction.x + ctx->player.fov.x * cameraX;
-	ray.y = ctx->player.direction.y + ctx->player.fov.y * cameraX;
+	camera_x = 2 * col / (double)WINDOW_WIDTH - 1;
+	ray.x = ctx->player.direction.x + ctx->player.fov.x * camera_x;
+	ray.y = ctx->player.direction.y + ctx->player.fov.y * camera_x;
 	return (ray);
 }
 
@@ -93,8 +93,7 @@ static void	raycast(t_ctx *ctx, t_dda *ref_dda)
 			ref_dda->tile.y += ref_dda->step.y;
 			ref_dda->side = 1;
 		}
-		if (ref_dda->tile.y < 0 || ref_dda->tile.y >= ctx->map.height || \
-			ref_dda->tile.x < 0 || ref_dda->tile.x >= ctx->map.width || \
+		if (ref_dda->tile.y < 0 || ref_dda->tile.x < 0 || \
 				ctx->map.tile_list[ref_dda->tile.y][ref_dda->tile.x] == '1')
 			hit = 1;
 	}

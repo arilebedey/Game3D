@@ -1,14 +1,13 @@
 NAME = cub3D
 
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -MMD -MP -Iinclude 
+CFLAGS = -Wall -Werror -Wextra -MMD -MP -Iinclude
 
 SRC_DIR = src
 SRC_FILES = main.c \
 	init.c \
 	input.c \
 	parse.c \
-	collision.c \
 	texture.c \
 	error.c \
 	debug.c \
@@ -17,6 +16,8 @@ SRC_FILES = main.c \
 	draw/pixel.c \
 	draw/dda.c \
 	draw/dda_utils.c \
+	player/rotate.c \
+	player/move.c \
 
 SRC = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 
@@ -50,7 +51,7 @@ all : $(NAME)
 $(LIBMLX):
 	@$(MAKE) -C mlx_linux -f Makefile.mk
 
-$(NAME) : $(LIBFT_A) $(LIBMLX) $(OBJ) 
+$(NAME) : $(LIBFT_A) $(LIBMLX) $(OBJ)
 	@echo "$(YELLOW)Linking $(NAME)...$(RESET)"
 	@$(CC) $(CFLAGS) $(MLXFLAGS) $(OBJ) -o $(NAME) $(LIBMLX) -L$(LIBFT_DIR) -lft
 

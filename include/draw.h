@@ -4,6 +4,13 @@
 # include "ctx.h"
 # include "win.h"
 
+typedef struct	s_draw
+{
+	t_point	pt;
+	double	step;
+	double tex_y;
+}			t_draw;
+
 // render.c
 
 // Main render.
