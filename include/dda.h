@@ -22,9 +22,9 @@ typedef struct s_dda
 	t_point		tile;
 	t_point		step;
 	t_vector2	delta_dist;
-	t_vector2	side_dist;
+	t_vector2	SIZE_dist;
 	t_col_draw	col_draw_arr[WINDOW_WIDTH];
-	int			side;
+	int			SIZE;
 
 }		t_dda;
 

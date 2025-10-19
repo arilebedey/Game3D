@@ -49,25 +49,25 @@ static void	init_dda(t_ctx *ctx, t_dda *ref_dda)
 	if (ref_dda->ray.x < 0)
 	{
 		ref_dda->step.x = -1;
-		ref_dda->side_dist.x = (ctx->player.position.x - ref_dda->tile.x) \
+		ref_dda->SIZE_dist.x = (ctx->player.position.x - ref_dda->tile.x) \
 			* ref_dda->delta_dist.x;
 	}
 	else
 	{
 		ref_dda->step.x = 1;
-		ref_dda->side_dist.x = (ref_dda->tile.x + 1 - ctx->player.position.x) \
+		ref_dda->SIZE_dist.x = (ref_dda->tile.x + 1 - ctx->player.position.x) \
 			* ref_dda->delta_dist.x;
 	}
 	if (ref_dda->ray.y < 0)
 	{
 		ref_dda->step.y = -1;
-		ref_dda->side_dist.y = (ctx->player.position.y - ref_dda->tile.y) \
+		ref_dda->SIZE_dist.y = (ctx->player.position.y - ref_dda->tile.y) \
 			* ref_dda->delta_dist.y;
 	}
 	else
 	{
 		ref_dda->step.y = 1;
-		ref_dda->side_dist.y = (ref_dda->tile.y + 1 - ctx->player.position.y) \
+		ref_dda->SIZE_dist.y = (ref_dda->tile.y + 1 - ctx->player.position.y) \
 			* ref_dda->delta_dist.y;
 	}
 }
@@ -81,17 +81,17 @@ static void	raycast(t_ctx *ctx, t_dda *ref_dda)
 	hit = 0;
 	while (!hit)
 	{
-		if (ref_dda->side_dist.x < ref_dda->side_dist.y)
+		if (ref_dda->SIZE_dist.x < ref_dda->SIZE_dist.y)
 		{
-			ref_dda->side_dist.x += ref_dda->delta_dist.x;
+			ref_dda->SIZE_dist.x += ref_dda->delta_dist.x;
 			ref_dda->tile.x += ref_dda->step.x;
-			ref_dda->side = 0;
+			ref_dda->SIZE = 0;
 		}
 		else
 		{
-			ref_dda->side_dist.y += ref_dda->delta_dist.y;
+			ref_dda->SIZE_dist.y += ref_dda->delta_dist.y;
 			ref_dda->tile.y += ref_dda->step.y;
-			ref_dda->side = 1;
+			ref_dda->SIZE = 1;
 		}
 		if (ref_dda->tile.y < 0 || ref_dda->tile.x < 0 || \
 				ctx->map.tile_list[ref_dda->tile.y][ref_dda->tile.x] == '1')

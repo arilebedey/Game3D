@@ -7,11 +7,18 @@ SRC_DIR = src
 SRC_FILES = main.c \
 	init.c \
 	input.c \
-	parse.c \
 	texture.c \
+	mouse.c \
 	error.c \
 	debug.c \
+	cleanup.c \
 	utils.c \
+	parse/parse.c \
+	parse/rgb.c \
+	parse/set_player.c \
+	parse/textures.c \
+	parse/validate.c \
+	parse/load.c \
 	draw/render.c \
 	draw/pixel.c \
 	draw/dda.c \

@@ -1,7 +1,5 @@
-#include "../include/input.h"
 #include "../include/debug.h"
 #include "../libft/libft.h"
-#include "../mlx_linux/mlx.h"
 #include <X11/X.h>
 
 void	debug_input(t_input input)

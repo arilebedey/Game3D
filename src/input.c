@@ -1,11 +1,11 @@
-#include "../include/input.h"
-#include "../libft/libft.h"
-#include "../mlx_linux/mlx.h"
+#include "../include/ctx.h"
 #include <X11/keysym.h>
-#include <stdlib.h>
 
-int	handle_key_press(int keysym, t_input *ref_input)
+int	handle_key_press(int keysym, t_ctx *ctx)
 {
+	t_input	*ref_input;
+
+	ref_input = &ctx->input;
 	if (keysym == XK_w)
 		ref_input->w = 1;
 	if (keysym == XK_a)
@@ -20,11 +20,16 @@ int	handle_key_press(int keysym, t_input *ref_input)
 		ref_input->right = 1;
 	if (keysym == XK_Escape)
 		ref_input->escape = 1;
+	if (keysym == XK_Alt_L)
+		ctx->mouse_active = !ctx->mouse_active;
 	return (1);
 }
 
-int	handle_key_release(int keysym, t_input *ref_input)
+int	handle_key_release(int keysym, t_ctx *ctx)
 {
+	t_input	*ref_input;
+
+	ref_input = &ctx->input;
 	if (keysym == XK_w)
 		ref_input->w = 0;
 	if (keysym == XK_a)

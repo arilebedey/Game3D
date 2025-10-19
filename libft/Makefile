@@ -20,6 +20,7 @@ ft_strlcpy.c \
 ft_strlcat.c \
 ft_toupper.c \
 ft_tolower.c \
+ft_freetab.c \
 ft_strchr.c \
 ft_strchr2.c \
 ft_strrchr.c \
@@ -48,8 +49,8 @@ ft_printf/printers.c \
 ft_printf/printers2.c \
 ft_printf/printers3.c \
 ft_printf/printers4.c \
-gnl/get_next_line_bonus.c \
-gnl/get_next_line_utils_bonus.c \
+gnl/get_next_line.c \
+gnl/get_next_line_utils.c \
 ft_realloc.c \
 
 SRC_BONUS = ft_lstnew_bonus.c \

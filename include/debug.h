@@ -1,7 +1,7 @@
 #ifndef DEBUG_H
 # define DEBUG_H
 
-#include "input.h"
+# include "ctx.h"
 
 // DEBUG MACROS
 // Set these macros to 0 or 1 to disable or enable each debug functions.
