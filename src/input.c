@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   input.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alebedev <alebedev@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/21 11:43:04 by alebedev          #+#    #+#             */
+/*   Updated: 2025/10/21 11:45:03 by alebedev         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/ctx.h"
 #include <X11/keysym.h>
 
@@ -21,7 +33,7 @@ int	handle_key_press(int keysym, t_ctx *ctx)
 	if (keysym == XK_Escape)
 		ref_input->escape = 1;
 	if (keysym == XK_Alt_L)
-		ctx->mouse_active = !ctx->mouse_active;
+		ref_input->alt = 1;
 	return (1);
 }
 
@@ -44,5 +56,7 @@ int	handle_key_release(int keysym, t_ctx *ctx)
 		ref_input->right = 0;
 	if (keysym == XK_Escape)
 		ref_input->escape = 0;
+	if (keysym == XK_Alt_L)
+		ref_input->alt = 0;
 	return (1);
 }

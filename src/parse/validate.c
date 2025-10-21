@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   validate.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alebedev <alebedev@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/21 11:53:06 by alebedev          #+#    #+#             */
+/*   Updated: 2025/10/21 12:17:26 by alebedev         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/ctx.h"
 #include "../../include/error.h"
 #include "../../libft/libft.h"
@@ -17,7 +29,9 @@ static char	get_tile_at(t_ctx *ctx, int x, int y)
 {
 	if (y < 0 || !ctx->map.tile_list[y])
 		return (' ');
-	if (x < 0 || !ctx->map.tile_list[y][x])
+	if (x < 0)
+		return (' ');
+	if ((int)ft_strlen(ctx->map.tile_list[y]) <= x)
 		return (' ');
 	return (ctx->map.tile_list[y][x]);
 }
@@ -64,7 +78,15 @@ int	validate_map(t_ctx *ctx)
 			if (is_valid_tile(c) && c != '1' && c != ' ')
 			{
 				if (!is_surrounded_by_non_void(ctx, x, y))
-					return (perr("Error\nMap not surrounded by walls"), 0);
+				{
+					ft_putstr_fd("Error\nMap not surrounded by walls at line ",
+						2);
+					ft_putnbr_fd(y + 1, 2);
+					ft_putstr_fd(", column ", 2);
+					ft_putnbr_fd(x + 1, 2);
+					ft_putchar_fd('\n', 2);
+					return (0);
+				}
 			}
 			x++;
 		}

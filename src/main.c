@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alebedev <alebedev@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/21 11:42:02 by alebedev          #+#    #+#             */
+/*   Updated: 2025/10/21 11:45:19 by alebedev         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/cleanup.h"
 #include "../include/ctx.h"
 #include "../include/debug.h"
@@ -52,11 +64,10 @@ static int	loop(t_ctx *ctx)
 	rotate_player(ctx);
 	move_player(ctx);
 	render(ctx);
-	/* printf("direction: {%f %f}, fov: {%f, %f}, position: {%f %f}\n", */
-	/* 	ctx->player.direction.x, ctx->player.direction.y, ctx->player.fov.x, */
-	/* 	ctx->player.fov.y, ctx->player.position.x, ctx->player.position.y); */
 	if (ctx->input.escape)
 		close_window(ctx);
+	if (ctx->input.alt)
+		ctx->mouse_active = !ctx->mouse_active;
 	return (1);
 }
 

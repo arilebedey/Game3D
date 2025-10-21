@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ctx.h                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alebedev <alebedev@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/21 11:45:29 by alebedev          #+#    #+#             */
+/*   Updated: 2025/10/21 12:00:54 by alebedev         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CTX_H
 # define CTX_H
 
@@ -14,6 +26,7 @@ typedef struct s_input
 	int			right;
 	int			left;
 	int			escape;
+	int			alt;
 }				t_input;
 
 typedef struct s_ctx
