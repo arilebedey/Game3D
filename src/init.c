@@ -6,7 +6,7 @@
 /*   By: alebedev <alebedev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 11:43:09 by alebedev          #+#    #+#             */
-/*   Updated: 2025/10/21 11:43:09 by alebedev         ###   ########.fr       */
+/*   Updated: 2025/10/22 12:30:13 by alebedev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,5 @@ void	init_input(t_input *ref_input)
 	ref_input->left = 0;
 	ref_input->right = 0;
 	ref_input->escape = 0;
+	ref_input->alt = 0;
 }

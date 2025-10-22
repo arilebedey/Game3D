@@ -19,6 +19,7 @@ SRC_FILES = main.c \
 	parse/textures.c \
 	parse/validate.c \
 	parse/load.c \
+	parse/utils.c \
 	draw/render.c \
 	draw/pixel.c \
 	draw/dda.c \

@@ -6,90 +6,64 @@
 /*   By: alebedev <alebedev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 11:53:06 by alebedev          #+#    #+#             */
-/*   Updated: 2025/10/21 12:17:26 by alebedev         ###   ########.fr       */
+/*   Updated: 2025/10/22 12:20:58 by alebedev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/ctx.h"
 #include "../../include/error.h"
+#include "../../include/parse.h"
 #include "../../libft/libft.h"
 
-static int	is_valid_tile(char c)
+static void	print_missing_wall_pos(int x, int y)
 {
-	return (c == '0' || c == '1' || c == 'N' || c == 'S' || c == 'E' || c == 'W'
-		|| c == ' ');
+	ft_putstr_fd("Error\nMap not surrounded by walls at line ", 2);
+	ft_putnbr_fd(y + 1, 2);
+	ft_putstr_fd(", column ", 2);
+	ft_putnbr_fd(x + 1, 2);
+	ft_putchar_fd('\n', 2);
 }
 
-static int	is_void(char c)
+static int	validate_line_content(t_ctx *ctx, int y, int *player_count)
 {
-	return (c == ' ' || c == '\0');
-}
+	int		x;
+	char	c;
 
-static char	get_tile_at(t_ctx *ctx, int x, int y)
-{
-	if (y < 0 || !ctx->map.tile_list[y])
-		return (' ');
-	if (x < 0)
-		return (' ');
-	if ((int)ft_strlen(ctx->map.tile_list[y]) <= x)
-		return (' ');
-	return (ctx->map.tile_list[y][x]);
-}
-
-static int	is_surrounded_by_non_void(t_ctx *ctx, int x, int y)
-{
-	char	left;
-	char	right;
-	char	up;
-	char	down;
-
-	left = get_tile_at(ctx, x - 1, y);
-	right = get_tile_at(ctx, x + 1, y);
-	up = get_tile_at(ctx, x, y - 1);
-	down = get_tile_at(ctx, x, y + 1);
-	return (!is_void(left) && !is_void(right) && !is_void(up)
-		&& !is_void(down));
+	x = 0;
+	while (ctx->map.tile_list[y][x])
+	{
+		c = ctx->map.tile_list[y][x];
+		if (!is_valid_tile(c))
+		{
+			ft_putstr_fd("Error\nInvalid character in map: '", 2);
+			ft_putchar_fd(c, 2);
+			ft_putstr_fd("'\n", 2);
+			return (0);
+		}
+		if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
+			(*player_count)++;
+		if (is_valid_tile(c) && c != '1' && c != ' ')
+		{
+			if (!is_surrounded_by_non_void(ctx, x, y))
+				return (print_missing_wall_pos(x, y), 0);
+		}
+		x++;
+	}
+	return (1);
 }
 
 int	validate_map(t_ctx *ctx)
 {
-	int		y;
-	int		x;
-	char	c;
-	int		player_count;
+	int	player_count;
+	int	y;
 
-	y = 0;
 	player_count = 0;
+	y = 0;
 	while (ctx->map.tile_list && ctx->map.tile_list[y])
 	{
-		x = 0;
-		while (ctx->map.tile_list[y][x])
-		{
-			c = ctx->map.tile_list[y][x];
-			if (!is_valid_tile(c))
-			{
-				ft_putstr_fd("Error\nInvalid character in map: '", 2);
-				ft_putchar_fd(c, 2);
-				ft_putstr_fd("'\n", 2);
-				return (0);
-			}
-			if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
-				player_count++;
-			if (is_valid_tile(c) && c != '1' && c != ' ')
-			{
-				if (!is_surrounded_by_non_void(ctx, x, y))
-				{
-					ft_putstr_fd("Error\nMap not surrounded by walls at line ",
-						2);
-					ft_putnbr_fd(y + 1, 2);
-					ft_putstr_fd(", column ", 2);
-					ft_putnbr_fd(x + 1, 2);
-					ft_putchar_fd('\n', 2);
-					return (0);
-				}
-			}
-			x++;
-		}
+		if (!is_line_empty(ctx->map.tile_list[y]) && !validate_line_content(ctx,
+				y, &player_count))
+			return (0);
 		y++;
 	}
 	if (player_count == 0)

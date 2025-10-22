@@ -6,7 +6,7 @@
 /*   By: alebedev <alebedev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 12:07:50 by alebedev          #+#    #+#             */
-/*   Updated: 2025/10/21 12:11:31 by alebedev         ###   ########.fr       */
+/*   Updated: 2025/10/22 12:27:27 by alebedev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,12 +89,14 @@ int	parse(t_ctx *ctx, const char *file)
 		return (0);
 	line = skip_empty_lines(fd);
 	ret = parse_identifiers(ctx, fd, &line);
-	if (ret)
+	if (ret || ctx->map.floor_color == -1 || ctx->map.ceiling_color == -1)
 	{
 		close(fd);
 		get_next_line(-1);
 		free(line);
 		free_textures(ctx);
+		if (ctx->map.floor_color == -1 || ctx->map.ceiling_color == -1)
+			perr("Error\nMissing floor or ceiling color");
 		return (0);
 	}
 	return (load_and_validate_map(ctx, fd, line));
