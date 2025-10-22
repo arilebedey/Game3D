@@ -6,7 +6,7 @@
 /*   By: alebedev <alebedev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:14:20 by alebedev          #+#    #+#             */
-/*   Updated: 2025/10/22 11:15:59 by alebedev         ###   ########.fr       */
+/*   Updated: 2025/10/22 13:44:28 by alebedev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,19 +48,4 @@ char	get_tile_at(t_ctx *ctx, int x, int y)
 	if ((int)ft_strlen(ctx->map.tile_list[y]) <= x)
 		return (' ');
 	return (ctx->map.tile_list[y][x]);
-}
-
-int	is_surrounded_by_non_void(t_ctx *ctx, int x, int y)
-{
-	char	left;
-	char	right;
-	char	up;
-	char	down;
-
-	left = get_tile_at(ctx, x - 1, y);
-	right = get_tile_at(ctx, x + 1, y);
-	up = get_tile_at(ctx, x, y - 1);
-	down = get_tile_at(ctx, x, y + 1);
-	return (!is_void(left) && !is_void(right) && !is_void(up)
-		&& !is_void(down));
 }

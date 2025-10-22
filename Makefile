@@ -15,6 +15,7 @@ SRC_FILES = main.c \
 	utils.c \
 	parse/parse.c \
 	parse/rgb.c \
+	parse/nonvoid.c \
 	parse/set_player.c \
 	parse/textures.c \
 	parse/validate.c \
