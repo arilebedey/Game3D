@@ -6,7 +6,7 @@
 /*   By: alebedev <alebedev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 12:45:44 by alebedev          #+#    #+#             */
-/*   Updated: 2025/10/22 12:46:04 by alebedev         ###   ########.fr       */
+/*   Updated: 2025/10/22 13:18:17 by alebedev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,22 +33,25 @@ static int	is_numeric(char *s)
 	return (1);
 }
 
-int	parse_rgb_value(int *dest, char *line)
+int	validate_and_split_rgb(char *line, char ***split)
 {
-	char	**split;
-	t_rgb	rgb;
-	char	*tmp;
-
 	if (!line)
 		return (perr("Error\nMissing RGB values"), 1);
-	split = ft_split(line, ',');
-	if (!split)
+	*split = ft_split(line, ',');
+	if (!*split)
 		return (perr("Error\nRGB split malloc"), 1);
-	if (!split[0] || !split[1] || !split[2] || split[3])
+	if (!(*split)[0] || !(*split)[1] || !(*split)[2] || (*split)[3])
 	{
-		free_tab(split);
+		free_tab(*split);
 		return (perr("Error\nInvalid number of RGB args or extra comma"), 1);
 	}
+	return (0);
+}
+
+int	clean_and_validate_rgb_components(char **split)
+{
+	char	*tmp;
+
 	tmp = ft_strtrim(split[2], "\n");
 	if (!tmp)
 		return (free_tab(split), perr("Error\nft_strtrim malloc"), 1);
@@ -57,6 +60,18 @@ int	parse_rgb_value(int *dest, char *line)
 	if (!is_numeric(split[0]) || !is_numeric(split[1]) || !is_numeric(split[2]))
 		return (free_tab(split), perr("Error\nRGB values must be numeric only"),
 			1);
+	return (0);
+}
+
+int	parse_rgb_value(int *dest, char *line)
+{
+	char	**split;
+	t_rgb	rgb;
+
+	if (validate_and_split_rgb(line, &split))
+		return (1);
+	if (clean_and_validate_rgb_components(split))
+		return (1);
 	rgb.red = ft_atoi(split[0]);
 	rgb.green = ft_atoi(split[1]);
 	rgb.blue = ft_atoi(split[2]);

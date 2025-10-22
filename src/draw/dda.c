@@ -6,13 +6,13 @@
 /*   By: agense <agense@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 12:39:06 by agense            #+#    #+#             */
-/*   Updated: 2025/10/22 12:40:09 by agense           ###   ########.fr       */
+/*   Updated: 2025/10/22 13:15:41 by alebedev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/ctx.h"
-#include "../../include/draw.h"
 #include "../../include/dda.h"
+#include "../../include/draw.h"
 #include <math.h>
 
 static t_vector2	get_ray(t_ctx *ctx, int col);
@@ -21,7 +21,7 @@ static void			raycast(t_ctx *ctx, t_dda *ref_dda);
 
 void	dda_algo(t_ctx *ctx, t_dda *ref_dda)
 {
-	int		col;
+	int	col;
 
 	col = -1;
 	while (++col < WINDOW_WIDTH)
@@ -61,25 +61,25 @@ static void	init_dda(t_ctx *ctx, t_dda *ref_dda)
 	if (ref_dda->ray.x < 0)
 	{
 		ref_dda->step.x = -1;
-		ref_dda->SIZE_dist.x = (ctx->player.position.x - ref_dda->tile.x) \
+		ref_dda->size_dist.x = (ctx->player.position.x - ref_dda->tile.x)
 			* ref_dda->delta_dist.x;
 	}
 	else
 	{
 		ref_dda->step.x = 1;
-		ref_dda->SIZE_dist.x = (ref_dda->tile.x + 1 - ctx->player.position.x) \
+		ref_dda->size_dist.x = (ref_dda->tile.x + 1 - ctx->player.position.x)
 			* ref_dda->delta_dist.x;
 	}
 	if (ref_dda->ray.y < 0)
 	{
 		ref_dda->step.y = -1;
-		ref_dda->SIZE_dist.y = (ctx->player.position.y - ref_dda->tile.y) \
+		ref_dda->size_dist.y = (ctx->player.position.y - ref_dda->tile.y)
 			* ref_dda->delta_dist.y;
 	}
 	else
 	{
 		ref_dda->step.y = 1;
-		ref_dda->SIZE_dist.y = (ref_dda->tile.y + 1 - ctx->player.position.y) \
+		ref_dda->size_dist.y = (ref_dda->tile.y + 1 - ctx->player.position.y)
 			* ref_dda->delta_dist.y;
 	}
 }
@@ -93,20 +93,20 @@ static void	raycast(t_ctx *ctx, t_dda *ref_dda)
 	hit = 0;
 	while (!hit)
 	{
-		if (ref_dda->SIZE_dist.x < ref_dda->SIZE_dist.y)
+		if (ref_dda->size_dist.x < ref_dda->size_dist.y)
 		{
-			ref_dda->SIZE_dist.x += ref_dda->delta_dist.x;
+			ref_dda->size_dist.x += ref_dda->delta_dist.x;
 			ref_dda->tile.x += ref_dda->step.x;
-			ref_dda->SIZE = 0;
+			ref_dda->size = 0;
 		}
 		else
 		{
-			ref_dda->SIZE_dist.y += ref_dda->delta_dist.y;
+			ref_dda->size_dist.y += ref_dda->delta_dist.y;
 			ref_dda->tile.y += ref_dda->step.y;
-			ref_dda->SIZE = 1;
+			ref_dda->size = 1;
 		}
-		if (ref_dda->tile.y < 0 || ref_dda->tile.x < 0 || \
-				ctx->map.tile_list[ref_dda->tile.y][ref_dda->tile.x] == '1')
+		if (ref_dda->tile.y < 0 || ref_dda->tile.x < 0
+			|| ctx->map.tile_list[ref_dda->tile.y][ref_dda->tile.x] == '1')
 			hit = 1;
 	}
 }

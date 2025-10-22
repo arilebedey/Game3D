@@ -6,7 +6,7 @@
 /*   By: alebedev <alebedev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 12:41:29 by alebedev          #+#    #+#             */
-/*   Updated: 2025/10/22 13:06:19 by alebedev         ###   ########.fr       */
+/*   Updated: 2025/10/22 13:20:06 by alebedev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,27 @@ static int	parse_textures(t_ctx *ctx, char *id, char *path)
 	return (set_texture_path(ctx, id, full_path));
 }
 
+int	handle_rgb_identifier(t_ctx *ctx, char **split)
+{
+	if (!ft_strncmp(split[0], "F", 2))
+	{
+		if (split[2])
+			return (perr("Error\nToo many arguments for F identifier"), 1);
+		return (parse_rgb_value(&ctx->map.floor_color, split[1]));
+	}
+	else if (!ft_strncmp(split[0], "C", 2))
+	{
+		if (split[2])
+			return (perr("Error\nToo many arguments for C identifier"), 1);
+		return (parse_rgb_value(&ctx->map.ceiling_color, split[1]));
+	}
+	return (perr("Error\nWrong identifier"), 1);
+}
+
 int	parse_identifier(t_ctx *ctx, char *line)
 {
 	char	**split;
 	int		ret;
-	int		i;
 
 	ret = 0;
 	split = ft_split(line, ' ');
@@ -80,29 +96,8 @@ int	parse_identifier(t_ctx *ctx, char *line)
 		ret = parse_textures(ctx, "WE", split[1]);
 	else if (!ft_strncmp(split[0], "EA", 3))
 		ret = parse_textures(ctx, "EA", split[1]);
-	else if (!ft_strncmp(split[0], "F", 2))
-	{
-		if (split[2])
-		{
-			perr("Error\nToo many arguments for F identifier");
-			ret = 1;
-		}
-		else
-			ret = parse_rgb_value(&ctx->map.floor_color, split[1]);
-	}
-	else if (!ft_strncmp(split[0], "C", 2))
-	{
-		if (split[2])
-		{
-			perr("Error\nToo many arguments for C identifier");
-			ret = 1;
-		}
-		else
-			ret = parse_rgb_value(&ctx->map.ceiling_color, split[1]);
-	}
 	else
-		ret = (perr("Error\nWrong identifier"), 1);
-	i = 0;
+		ret = handle_rgb_identifier(ctx, split);
 	free_tab(split);
 	return (ret);
 }

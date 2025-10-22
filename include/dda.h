@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   dda.h                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alebedev <alebedev@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/22 13:12:13 by alebedev          #+#    #+#             */
+/*   Updated: 2025/10/22 13:15:08 by alebedev         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef DDA_H
 # define DDA_H
 
@@ -8,30 +20,30 @@ typedef struct s_point		t_point;
 
 typedef struct s_col_draw
 {
-	int			start;
-	int			end;
-	int			line_height;
-	t_point		text_pt;
-	t_texture	texture;
+	int						start;
+	int						end;
+	int						line_height;
+	t_point					text_pt;
+	t_texture				texture;
 
-}		t_col_draw;
+}							t_col_draw;
 
 typedef struct s_dda
 {
-	t_vector2	ray;
-	t_point		tile;
-	t_point		step;
-	t_vector2	delta_dist;
-	t_vector2	SIZE_dist;
-	t_col_draw	col_draw_arr[WINDOW_WIDTH];
-	int			SIZE;
+	t_vector2				ray;
+	t_point					tile;
+	t_point					step;
+	t_vector2				delta_dist;
+	t_vector2				size_dist;
+	t_col_draw				col_draw_arr[WINDOW_WIDTH];
+	int						size;
 
-}		t_dda;
+}							t_dda;
 
 // Make all dda calculations.
-void	dda_algo(t_ctx *ctx, t_dda *ref_dda);
+void						dda_algo(t_ctx *ctx, t_dda *ref_dda);
 
 // Init a draw elem at index i using dda fields.
-void	init_draw_elem(t_ctx *ctx, t_dda *ref_dda, int i);
+void						init_draw_elem(t_ctx *ctx, t_dda *ref_dda, int i);
 
 #endif

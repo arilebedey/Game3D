@@ -1,13 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   win.h                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alebedev <alebedev@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/22 13:11:02 by alebedev          #+#    #+#             */
+/*   Updated: 2025/10/22 13:11:19 by alebedev         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef WIN_H
 # define WIN_H
 
 # define WINDOW_WIDTH 600
 # define WINDOW_HEIGHT 600
 
-# define PI 3.14159265358979323846
-
-#include "point.h"
-#include "rgb.h"
+# include "point.h"
+# include "rgb.h"
 
 typedef struct s_img
 {
@@ -29,10 +39,10 @@ typedef struct s_win
 
 // Initalize mlx and window.
 // If failed, prints error msg and returns 0.
-int	init_window(t_win *ref_win);
+int			init_window(t_win *ref_win);
 
 // Initalize image data.
 // If failed, prints error msg and returns 0.
-int	init_image(t_win *ref_win);
+int			init_image(t_win *ref_win);
 
 #endif
