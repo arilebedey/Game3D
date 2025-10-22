@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alebedev <alebedev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: agense <agense@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 11:42:02 by alebedev          #+#    #+#             */
-/*   Updated: 2025/10/21 11:45:19 by alebedev         ###   ########.fr       */
+/*   Updated: 2025/10/22 12:34:34 by agense           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ int	main(int ac, char **av)
 {
 	t_ctx	*ctx;
 
-	(void)av;
-	(void)ac;
 	if (ac != 2)
 		return (perr("error: args"), 1);
 	ctx = ft_calloc(1, sizeof(t_ctx));
