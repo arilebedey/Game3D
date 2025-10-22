@@ -1,7 +1,10 @@
 EA texture/reptile.xpm
 NO texture/cpu.xpm
-SO texture/star.xpm
-WE texture/bob.xpm
+SO             texture/star.xpm                           
+WE    texture/bob.xpm
+
+C                        55,25,6
+F                         45,55,65
 
  1111111111111111111111111111
 100000000000000000000000000001

@@ -6,7 +6,7 @@
 /*   By: alebedev <alebedev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 12:07:50 by alebedev          #+#    #+#             */
-/*   Updated: 2025/10/22 12:27:27 by alebedev         ###   ########.fr       */
+/*   Updated: 2025/10/22 12:34:27 by alebedev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ int	parse(t_ctx *ctx, const char *file)
 	fd = open_file(file);
 	if (fd < 0)
 		return (0);
+	ctx->map.floor_color = -1;
+	ctx->map.ceiling_color = -1;
 	line = skip_empty_lines(fd);
 	ret = parse_identifiers(ctx, fd, &line);
 	if (ret || ctx->map.floor_color == -1 || ctx->map.ceiling_color == -1)
